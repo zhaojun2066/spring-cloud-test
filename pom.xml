@@ -22,6 +22,7 @@
         <module>config-high-client</module>
         <module>eureka-consumer-ribbon-hystrix</module>
         <module>hystrix-dashboard</module>
+        <module>api-gateway</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

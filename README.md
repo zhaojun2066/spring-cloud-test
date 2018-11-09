@@ -97,3 +97,15 @@
        那么当断路器打开之后会发生什么呢？我们先来说说断路器未打开之前，对于之前那个示例的情况就是每个请求都会在当hystrix超时之后返回fallback，每个请求时间延迟就是近似hystrix的超时时间，如果设置为5秒，
        那么每个请求就都要延迟5秒才会返回。当熔断器在10秒内发现请求总数超过20，并且错误百分比超过50%，这个时候熔断器打开。打开之后，再有请求调用的时候，将不会调用主逻辑，而是直接调用降级逻辑，这个时候就
        不会等待5秒之后才返回fallback。通过断路器，实现了自动地发现错误并将降级逻辑切换为主逻辑，减少响应延迟的效果。
+## Zuul
+### 默认规则
+    http://GATEWAY:GATEWAY_PORT/想要访问的Eureka服务id的小写/** 将会访问到 http://想要访问的Eureka服务id的小写:该服务端口/**
+### 自定义规则
+    zuul:
+      routes:
+        user:                                               # 可以随便写，在zuul上面唯一即可；当这里的值 = service-id时，service-id可以不写。
+          path: /user/**                                    # 想要映射到的路径
+          service-id: microservice-provider-user            # Eureka中的serviceId
+### 忽略某些服务
+    zuul:
+      ignored-services: microservice-provider-user          # 需要忽视的服务ID(配置后将不会被路由)
